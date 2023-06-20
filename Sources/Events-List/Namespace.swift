@@ -10,4 +10,7 @@ import Foundation
 struct Feature {
     struct API {}
     struct Domain {}
+    enum State {
+        case initial, loading, loaded, failure(Error?)
+    }
 }
