@@ -24,11 +24,13 @@ extension Feature.Domain.Sport {
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
-            addSubview(collection)
-            collection.translatesAutoresizingMaskIntoConstraints = false
+            backgroundColor = Palette.background.color
+            contentView.backgroundColor = Palette.background.color
             
+            addSubview(collection)
             configureCollection()
             
+            collection.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 leadingAnchor.constraint(equalTo: collection.leadingAnchor),
                 trailingAnchor.constraint(equalTo: collection.trailingAnchor),

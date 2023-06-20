@@ -15,8 +15,8 @@ extension Feature.Domain.Sport.Event {
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            self.contentView.backgroundColor = .red
-            
+            backgroundColor = Palette.background.color
+            self.contentView.backgroundColor = Palette.background.color
         }
 
         @available(*, unavailable)

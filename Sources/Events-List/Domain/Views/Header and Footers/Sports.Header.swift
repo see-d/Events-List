@@ -12,11 +12,6 @@ extension Feature.Domain.Sport {
         typealias sport = Feature.Domain.Sport
         static var reuseIdentifier: String = String(describing: sport.TitleHeader.self)
         
-        private let upIcon = UIImage(named: "toggle.up")
-        private let downIcon = UIImage(named: "toggle.down")
-        private let pageColor = UIColor(named: "background")
-        private let labelColor = UIColor(named: "dark.text")
-        
         private lazy var content = {
             let stack = UIStackView()
             stack.distribution = .fill
@@ -28,7 +23,7 @@ extension Feature.Domain.Sport {
         
         private lazy var titleLabel = {
             let label = UILabel()
-            label.textColor = labelColor
+            label.textColor = Palette.darkLabel.color
             return label
         }()
         
@@ -40,10 +35,10 @@ extension Feature.Domain.Sport {
             
             button.setContentHuggingPriority(.required, for: .horizontal)
             
-            button.tintColor = .black
+            button.tintColor = Palette.darkLabel.color
             
-            button.setImage(downIcon, for: .selected)
-            button.setImage(upIcon, for: .normal)
+            button.setImage(Icon.toggleOn.image, for: .selected)
+            button.setImage(Icon.toggleOff.image, for: .normal)
             
             return button
         }()
@@ -69,7 +64,8 @@ extension Feature.Domain.Sport {
         }
         
         private func configureViewHierarchy() {
-            contentView.backgroundColor = pageColor
+            backgroundColor = Palette.background.color
+            contentView.backgroundColor = Palette.background.color
             
             content.addArrangedSubview(titleLabel)
             content.addArrangedSubview(toggleButton)
