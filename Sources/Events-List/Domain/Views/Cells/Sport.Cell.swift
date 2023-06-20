@@ -82,6 +82,12 @@ extension Feature.Domain.Sport.Cell: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: sport.Event.Cell.reuseIdentifier,
                                                       for: indexPath)
         
+        if events.indices.contains(indexPath.row) {
+            let event = events[indexPath.row]
+            (cell as? sport.Event.Cell)?.prepare(with: event)
+        }
+        // TODO: add fallback empty/error state
+        
         return cell
     }
 }
