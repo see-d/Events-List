@@ -103,7 +103,7 @@ extension Feature.Domain.Sport.Cell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemsPerRow:CGFloat = 1.2
         let horizontalPadding = 8.0
-        let verticalPadding = 8.0
+        let verticalPadding = 16.0
         let itemWidth = (collectionView.bounds.width / itemsPerRow) - horizontalPadding
         let itemHeight = collectionView.bounds.height - (2 * verticalPadding)
         return CGSize(width: itemWidth, height: itemHeight)
