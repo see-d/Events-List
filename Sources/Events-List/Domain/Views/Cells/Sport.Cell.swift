@@ -29,6 +29,8 @@ extension Feature.Domain.Sport {
             backgroundColor = Palette.background.color
             contentView.backgroundColor = Palette.background.color
             
+            clipsToBounds = false
+            
             addSubview(collection)
             configureCollection()
             
@@ -69,6 +71,8 @@ extension Feature.Domain.Sport.Cell {
         
         collection.dataSource = self
         collection.delegate = self
+        
+        collection.clipsToBounds = false
     }
 }
 
@@ -94,10 +98,11 @@ extension Feature.Domain.Sport.Cell: UICollectionViewDataSource {
 
 extension Feature.Domain.Sport.Cell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow:CGFloat = 4.4
-        let hardCodedPadding:CGFloat = 3
-        let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
-        let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
+        let itemsPerRow:CGFloat = 1.2
+        let horizontalPadding = 8.0
+        let verticalPadding = 8.0
+        let itemWidth = (collectionView.bounds.width / itemsPerRow) - horizontalPadding
+        let itemHeight = collectionView.bounds.height - (2 * verticalPadding)
         return CGSize(width: itemWidth, height: itemHeight)
     }
 }

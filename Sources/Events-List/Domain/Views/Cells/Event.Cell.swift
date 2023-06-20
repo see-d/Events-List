@@ -23,14 +23,13 @@ extension Feature.Domain.Sport.Event {
         
         private lazy var eventTime:UILabel = {
             let label = UILabel()
-            label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+            label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
             return label
         }()
         
         private lazy var timeFormatter = {
             let formatter = DateFormatter()
-            formatter.dateStyle = .none
-            formatter.timeStyle = .short
+            formatter.dateFormat = "HH:mm:ss"
             formatter.locale = .autoupdatingCurrent
             
             return formatter
@@ -72,8 +71,11 @@ extension Feature.Domain.Sport.Event {
         }
         
         private func configureViewHierarchy() {
-            backgroundColor = .red //Palette.background.color
-            self.contentView.backgroundColor = .red //Palette.background.color
+            backgroundColor = Palette.background.color
+            self.contentView.backgroundColor = Palette.background.color
+        
+            contentView.layer.cornerRadius = 16.0
+            contentView.dropShadow()
             
             addSubview(content)
             content.addArrangedSubview(eventTime)
@@ -88,6 +90,19 @@ extension Feature.Domain.Sport.Event {
                 bottomAnchor.constraint(equalTo: content.bottomAnchor),
             ])
         }
+    }
+}
+
+extension UIView {
+    func dropShadow() {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.1
+        layer.shadowOffset = CGSize(width: 0, height: 4)
+        layer.shadowRadius = 8
+        layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: 16.0).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
     }
 }
 
