@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "api-service",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/see-d/API-Service.git",
+      "state" : {
+        "revision" : "4014d30e65962e16f9723b0d4ee08424c6fc88b9",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
