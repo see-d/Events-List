@@ -13,6 +13,8 @@ extension Feature.Domain.Sport {
         private(set) var viewmodel: events.ViewModel
         lazy var tableview = UITableView(frame: view.frame, style: .plain)
         
+        let pageColor = UIColor(named: "background", in: .module, compatibleWith: .none)
+        
         required init(with viewmodel: events.ViewModel) {
             self.viewmodel = viewmodel
             
@@ -33,7 +35,7 @@ extension Feature.Domain.Sport {
         }
         
         private func prepareViewHeirarchy() {
-            view.backgroundColor = .white
+            view.backgroundColor = pageColor
             displayTableview()
         }
 

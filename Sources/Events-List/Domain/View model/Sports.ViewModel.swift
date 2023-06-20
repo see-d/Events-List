@@ -41,6 +41,10 @@ extension Feature.Domain.Sport {
             self.repository = repository
             
             onChangeDelegate?.render(for: .loading)
+            
+            _ = dataObserver
+            _ = errorObserver
+            
             repository.fetch()
         }
         
