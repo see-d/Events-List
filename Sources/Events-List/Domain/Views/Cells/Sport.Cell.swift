@@ -12,6 +12,8 @@ extension Feature.Domain.Sport {
         typealias sport = Feature.Domain.Sport
         static let reuseIdentifier: String = String(describing: sport.Cell.self)
         
+        private var events:[sport.Event] = []
+        
         lazy var collection = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
@@ -43,6 +45,10 @@ extension Feature.Domain.Sport {
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
+        
+        func prepare(with events:[sport.Event]) {
+            self.events = events
+        }
     }
 }
 
@@ -69,8 +75,7 @@ extension Feature.Domain.Sport.Cell {
 
 extension Feature.Domain.Sport.Cell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // TODO: replace with sports.events
-        12
+        return events.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

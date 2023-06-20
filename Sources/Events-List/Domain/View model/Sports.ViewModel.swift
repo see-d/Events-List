@@ -69,5 +69,10 @@ extension Feature.Domain.Sport {
                 return true
             }
         }
+        
+        func events(for section: Int) -> [event.Event] {
+            guard events.indices.contains(section) else { return [] }
+            return events[section].events
+        }
     }
 }
