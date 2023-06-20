@@ -64,7 +64,7 @@ extension Feature.Domain.Sport.Event {
         
         private lazy var eventDescription = {
             let label = UILabel()
-            label.font = UIFont.systemFont(ofSize: 16)
+            label.font = UIFont.systemFont(ofSize: 24)
             label.textAlignment = .center
             label.numberOfLines = 0
             label.adjustsFontSizeToFitWidth = true
@@ -97,7 +97,7 @@ extension Feature.Domain.Sport.Event {
             return button
         }()
         
-        private var toggleAction: (() -> ()?)?
+        private var toggleAction: ((Bool) -> ()?)?
         
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -110,11 +110,18 @@ extension Feature.Domain.Sport.Event {
             fatalError("init(coder:) has not been implemented")
         }
         
-        func prepare(with event: Event, toggle:@escaping () -> ()?){
+        override func prepareForReuse() {
+            super.prepareForReuse()
+            
+            toggleFavorite.isSelected = false
+        }
+        
+        func prepare(with event: Event, isFavourite:Bool, toggle:@escaping (Bool) -> ()?){
             eventTime.text = timeFormatter.string(from: event.timeToEvent)
             eventDescription.text = event.title
             toggleAction = toggle
             
+            toggleFavorite.isSelected = isFavourite
             toggleFavorite.addTarget(self, action: #selector(toggleFavorite(_:)), for: .touchUpInside)
         }
         
@@ -141,7 +148,7 @@ extension Feature.Domain.Sport.Event {
         
         @objc private func toggleFavorite(_ sender:UIButton) {
             sender.isSelected.toggle()
-            toggleAction?()
+            toggleAction?(sender.isSelected)
         }
     }
 }

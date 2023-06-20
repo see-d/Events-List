@@ -7,12 +7,19 @@
 
 import UIKit
 
+protocol EventFavouritesDelegate: AnyObject {
+    func updateEvent(favourite:Bool, id: String)
+}
+
 extension Feature.Domain.Sport {
     class Cell: UITableViewCell {
         typealias sport = Feature.Domain.Sport
         static let reuseIdentifier: String = String(describing: sport.Cell.self)
         
+        weak var favouritesDelegate:EventFavouritesDelegate?
+        
         private var events:[sport.Event] = []
+        private var favourites:[String] = []
         
         lazy var collection = {
             let layout = UICollectionViewFlowLayout()
@@ -48,8 +55,9 @@ extension Feature.Domain.Sport {
             fatalError("init(coder:) has not been implemented")
         }
         
-        func prepare(with events:[sport.Event]) {
+        func prepare(with events:[sport.Event], favourites: [String]) {
             self.events = events
+            self.favourites = favourites
         }
     }
 }
@@ -92,12 +100,15 @@ extension Feature.Domain.Sport.Cell: UICollectionViewDataSource {
         if events.indices.contains(indexPath.row) {
             let event = events[indexPath.row]
             
-            let toggleAction = { [weak self] in
+            let toggleAction = { [weak self] (favorite:Bool) in
                 guard let self else { return }
-                
+                self.favouritesDelegate?.updateEvent(favourite: favorite, id: event.id)
             }
             
-            (cell as? sport.Event.Cell)?.prepare(with: event, toggle: toggleAction)
+            let isFavorite = favourites.contains(event.id)
+            (cell as? sport.Event.Cell)?.prepare(with: event,
+                                                 isFavourite: isFavorite,
+                                                 toggle: toggleAction)
         }
         // TODO: add fallback empty/error state
         

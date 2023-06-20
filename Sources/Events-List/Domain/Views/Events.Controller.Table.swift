@@ -46,7 +46,9 @@ extension Feature.Domain.Sport.EventsController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: events.Cell.reuseIdentifier,
                                                  for: indexPath)
         
-        (cell as? events.Cell)?.prepare(with: viewmodel.events(for: indexPath.section))
+        (cell as? events.Cell)?.prepare(with: viewmodel.events(for: indexPath.section),
+                                        favourites:viewmodel.favourites)
+        (cell as? events.Cell)?.favouritesDelegate = viewmodel
         return cell
     }
 }

@@ -30,6 +30,7 @@ extension Feature.Domain.Sport {
             }
         }()
         
+        private(set) var favourites:[String] = []
         private var visibleSections:[Int] = []
         private(set) var events:[event] = [] {
             didSet {
@@ -73,6 +74,16 @@ extension Feature.Domain.Sport {
         func events(for section: Int) -> [event.Event] {
             guard events.indices.contains(section) else { return [] }
             return events[section].events
+        }
+    }
+}
+
+extension Feature.Domain.Sport.ViewModel: EventFavouritesDelegate {
+    func updateEvent(favourite: Bool, id: String) {
+        if favourites.contains(id) {
+            favourites.removeAll(where: { $0 == id })
+        } else {
+            favourites.append(id)
         }
     }
 }
