@@ -63,10 +63,7 @@ extension Feature.Domain.Sport {
         }
         
         func prepare(with events:[sport.Event], favourites: [String]) {
-            let sorted = events.sorted(by: {
-                return $0.timeToEvent > $1.timeToEvent //|| favourites.contains( $1.id )
-            })
-            self.events = sorted
+            self.events = events
             self.favourites = favourites
         }
     }

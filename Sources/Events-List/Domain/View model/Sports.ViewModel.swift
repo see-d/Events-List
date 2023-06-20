@@ -20,7 +20,7 @@ extension Feature.Domain.Sport {
         
         private lazy var dataObserver:NSKeyValueObservation = {
             return repository.observe(\.data) { [weak self] object, change in
-                self?.events = object.data.compactMap{ event(with: $0) }
+                self?.sortAndDisplay(events: object.data)
             }
         }()
         
@@ -75,6 +75,17 @@ extension Feature.Domain.Sport {
             guard events.indices.contains(section) else { return [] }
             return events[section].events
         }
+        
+        private func sortAndDisplay(events:[Feature.API.Sport]) {
+            let sorted = events.compactMap{
+                let events = $0.events.sorted(by: {
+                    return $0.time < $1.time
+                }).compactMap{ event.Event(with: $0) }
+                
+                return event(id: $0.id, title: $0.title, events: events)
+            }
+            self.events = sorted
+        }
     }
 }
 
@@ -85,5 +96,6 @@ extension Feature.Domain.Sport.ViewModel: EventFavouritesDelegate {
         } else {
             favourites.append(id)
         }
+        onChangeDelegate?.render(for: .loaded)
     }
 }

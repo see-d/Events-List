@@ -117,7 +117,7 @@ extension Feature.Domain.Sport.Event {
         }
         
         func prepare(with event: Event, isFavourite:Bool, toggle:@escaping (Bool) -> ()?){
-            eventTime.text = timeFormatter.string(from: event.timeToEvent)
+            eventTime.text = event.timeToEvent.countdown()
             eventDescription.text = event.title
             toggleAction = toggle
             
@@ -163,6 +163,22 @@ extension UIView {
         layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: 16.0).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
+    }
+}
+
+extension Date {
+    func countdown() -> String {
+        let calendar = Calendar.autoupdatingCurrent
+
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
+        //let year = components.year != nil ? "\(components.year!) year" : ""
+        let month = components.month != nil ? "\(components.month!) month" : ""
+        let days = components.day != nil ? "\(components.day!) day" : ""
+        let hours = components.hour != nil ? "\(components.hour!)" : "00"
+        let minutes = components.minute != nil ? "\(components.minute!)" : "00"
+        let seconds = components.second != nil ? "\(components.second!)" : "00"
+        
+        return "\(month) \(days) \(hours):\(minutes):\(seconds)"
     }
 }
 
