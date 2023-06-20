@@ -64,20 +64,19 @@ extension Feature.Domain.Sport {
         }
         
         private func configureViewHierarchy() {
-            backgroundColor = Palette.background.color
             contentView.backgroundColor = Palette.background.color
             
             content.addArrangedSubview(titleLabel)
             content.addArrangedSubview(toggleButton)
             
-            addSubview(content)
+            contentView.addSubview(content)
             
             content.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                leadingAnchor.constraint(equalTo: content.leadingAnchor),
-                trailingAnchor.constraint(equalTo: content.trailingAnchor),
-                topAnchor.constraint(equalTo: content.topAnchor),
-                bottomAnchor.constraint(equalTo: content.bottomAnchor)
+                contentView.leadingAnchor.constraint(equalTo: content.leadingAnchor, constant: -8.0),
+                contentView.trailingAnchor.constraint(equalTo: content.trailingAnchor),
+                contentView.topAnchor.constraint(equalTo: content.topAnchor),
+                contentView.bottomAnchor.constraint(equalTo: content.bottomAnchor)
             ])
         }
         

@@ -60,6 +60,9 @@ extension Feature.Domain.Sport.Cell {
         collection.insetsLayoutMarginsFromSafeArea = true
         collection.contentInsetAdjustmentBehavior = .automatic
         
+        collection.contentInset.left = 16.0
+        collection.contentInset.right = 16.0
+        
         collection.keyboardDismissMode = .onDrag
         collection.showsVerticalScrollIndicator = false
         

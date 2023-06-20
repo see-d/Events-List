@@ -12,15 +12,14 @@ extension Feature.Domain.Sport.EventsController {
         tableview.dataSource = self
         tableview.delegate = self
         
-        tableview.contentInset.left = 16.0
-        tableview.contentInset.right = -16.0
-        
         tableview.rowHeight = view.frame.height/6
         tableview.estimatedRowHeight = UITableView.automaticDimension
         
         tableview.sectionFooterHeight = .leastNormalMagnitude
         tableview.sectionHeaderHeight = UITableView.automaticDimension
         
+        tableview.insetsContentViewsToSafeArea = true
+
         if #available(iOS 15.0, *) {
             tableview.sectionHeaderTopPadding = 0.0
         }
