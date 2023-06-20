@@ -17,6 +17,7 @@ extension Feature.Domain.Sport.Event {
             stack.axis = .vertical
             stack.distribution = .fill
             stack.alignment = .fill
+            stack.spacing = 8.0
             
             return stack
         }()
@@ -63,9 +64,11 @@ extension Feature.Domain.Sport.Event {
         
         private lazy var eventDescription = {
             let label = UILabel()
-            label.font = UIFont.systemFont(ofSize: 16)
+            label.font = UIFont.systemFont(ofSize: 24)
             label.textAlignment = .center
             label.numberOfLines = 0
+            label.adjustsFontSizeToFitWidth = true
+            label.minimumScaleFactor = 0.5
             return label
         }()
         
@@ -75,17 +78,26 @@ extension Feature.Domain.Sport.Event {
             container.alignment = .leading
             container.distribution = .fill
             
-            let image = UIImageView(image:Icon.favoriteOff.image)
-            image.tintColor = Palette.favorite.color
-            image.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                image.heightAnchor.constraint(equalToConstant: 24),
-                image.widthAnchor.constraint(equalTo: image.heightAnchor)
-            ])
-            
-            container.addArrangedSubview(image)
+            container.addArrangedSubview(toggleFavorite)
             return container
         }()
+        
+        private lazy var toggleFavorite = {
+            let button = UIButton(type: .custom)
+            button.setImage(Icon.favoriteOff.image, for: .normal)
+            button.setImage(Icon.favoriteOn.image, for: .selected)
+            button.tintColor = Palette.favorite.color
+            
+            button.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                button.heightAnchor.constraint(equalToConstant: 44),
+                button.widthAnchor.constraint(equalTo: button.heightAnchor)
+            ])
+            
+            return button
+        }()
+        
+        private var toggleAction: ((Bool) -> ()?)?
         
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -98,9 +110,19 @@ extension Feature.Domain.Sport.Event {
             fatalError("init(coder:) has not been implemented")
         }
         
-        func prepare(with event: Event){
+        override func prepareForReuse() {
+            super.prepareForReuse()
+            
+            toggleFavorite.isSelected = false
+        }
+        
+        func prepare(with event: Event, isFavourite:Bool, toggle:@escaping (Bool) -> ()?){
             eventTime.text = timeFormatter.string(from: event.timeToEvent)
             eventDescription.text = event.title
+            toggleAction = toggle
+            
+            toggleFavorite.isSelected = isFavourite
+            toggleFavorite.addTarget(self, action: #selector(toggleFavorite(_:)), for: .touchUpInside)
         }
         
         private func configureViewHierarchy() {
@@ -122,6 +144,11 @@ extension Feature.Domain.Sport.Event {
                 topAnchor.constraint(equalTo: content.topAnchor, constant: -16),
                 bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 16),
             ])
+        }
+        
+        @objc private func toggleFavorite(_ sender:UIButton) {
+            sender.isSelected.toggle()
+            toggleAction?(sender.isSelected)
         }
     }
 }
