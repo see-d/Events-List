@@ -10,6 +10,7 @@ import UIKit
 enum Palette: String {
     case background = "background"
     case darkLabel = "dark.text"
+    case favorite = "favorite"
 }
 
 extension Palette {
@@ -19,6 +20,8 @@ extension Palette {
             return UIColor(named: "background", in: .module, compatibleWith: .none)!
         case .darkLabel:
             return UIColor(named: "dark.text", in: .module, compatibleWith: .none)!
+        case .favorite:
+            return UIColor(named: "favorite", in: .module, compatibleWith: .none)!
         }
     }
 }
