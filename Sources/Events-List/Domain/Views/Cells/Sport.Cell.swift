@@ -55,6 +55,13 @@ extension Feature.Domain.Sport {
             fatalError("init(coder:) has not been implemented")
         }
         
+        override func prepareForReuse() {
+            super.prepareForReuse()
+            
+            self.events = []
+            collection.reloadData()
+        }
+        
         func prepare(with events:[sport.Event], favourites: [String]) {
             self.events = events
             self.favourites = favourites
