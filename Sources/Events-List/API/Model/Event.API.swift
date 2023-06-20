@@ -8,7 +8,7 @@
 import Foundation
 
 extension Feature.API.Sport {
-    struct Event: Decodable {
+    class Event: NSObject, Decodable {
         let id: String
         let sport: String
         let title: String

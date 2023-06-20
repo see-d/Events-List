@@ -8,8 +8,9 @@
 import Foundation
 import API_Service
 
-class EventsRepository: Repository {
-    var data:[Feature.API.Sport] = []
+class EventsRepository: NSObject, Repository {
+    @objc dynamic var data:[Feature.API.Sport] = []
+    @objc dynamic var error:Error?
     
     func fetch() {
         let api = Feature.API.Sports.fetch
@@ -17,7 +18,7 @@ class EventsRepository: Repository {
             DispatchQueue.main.async {
                 guard let self else { return }
                 guard let response else {
-                    let error = error ?? NSError(domain: "fetch.repository.events", code: 400)
+                    self.error = error ?? NSError(domain: "fetch.repository.events", code: 400)
                     return
                 }
                 self.data = response

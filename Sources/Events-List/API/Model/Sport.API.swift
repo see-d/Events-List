@@ -8,11 +8,11 @@
 import Foundation
 
 extension Feature.API {
-    struct Sport: Decodable {
+    class Sport: NSObject, Decodable {
         let id: String
         let title:String
         let events:[Event]
-        
+
         enum CodingKeys: String, CodingKey, CaseIterable {
             case id = "i"
             case title = "d"

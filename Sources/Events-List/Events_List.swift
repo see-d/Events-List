@@ -4,7 +4,8 @@ public struct Events_List {
     public init() {}
     
     public func loadController() -> UIViewController {
-        
-        return EventsController()
+        let repository = EventsRepository()
+        let viewmodel = Feature.Domain.Sport.ViewModel(repository: repository)
+        return Feature.Domain.Sport.EventsController(with: viewmodel)
     }
 }
