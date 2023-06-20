@@ -1,6 +1,10 @@
-public struct Events_List {
-    public private(set) var text = "Hello, World!"
+import UIKit
 
-    public init() {
+public struct Events_List {
+    public init() {}
+    
+    public func loadController() -> UIViewController {
+        
+        return EventsController()
     }
 }
