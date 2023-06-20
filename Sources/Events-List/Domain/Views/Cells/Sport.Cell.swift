@@ -91,7 +91,13 @@ extension Feature.Domain.Sport.Cell: UICollectionViewDataSource {
         
         if events.indices.contains(indexPath.row) {
             let event = events[indexPath.row]
-            (cell as? sport.Event.Cell)?.prepare(with: event)
+            
+            let toggleAction = { [weak self] in
+                guard let self else { return }
+                
+            }
+            
+            (cell as? sport.Event.Cell)?.prepare(with: event, toggle: toggleAction)
         }
         // TODO: add fallback empty/error state
         
