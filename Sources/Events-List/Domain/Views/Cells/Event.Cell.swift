@@ -12,18 +12,28 @@ extension Feature.Domain.Sport.Event {
         typealias Event = Feature.Domain.Sport.Event
         static let reuseIdentifier: String = String(describing: Event.Cell.self)
         
-        private lazy var content:UIStackView = {
+        private lazy var content = {
             let stack = UIStackView()
             stack.axis = .vertical
             stack.distribution = .fill
-            stack.alignment = .center
+            stack.alignment = .fill
             
             return stack
         }()
         
-        private lazy var eventTime:UILabel = {
+        private lazy var eventTimeLabel = {
             let label = UILabel()
-            label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+            label.text = "starts in:"
+            label.textAlignment = .right
+            label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+            return label
+        }()
+        
+        private lazy var eventTime = {
+            let label = UILabel()
+            label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+            label.setContentHuggingPriority(.required, for: .horizontal)
+            label.setContentHuggingPriority(.required, for: .vertical)
             return label
         }()
         
@@ -35,23 +45,46 @@ extension Feature.Domain.Sport.Event {
             return formatter
         }()
         
-        private lazy var eventDescription:UILabel = {
+        private lazy var timeDisplayStack = {
+            let stack = UIStackView()
+            stack.axis = .horizontal
+            stack.distribution = .fill
+            stack.alignment = .bottom
+            stack.spacing = 8.0
+            
+            stack.addArrangedSubview(eventTimeLabel)
+            stack.addArrangedSubview(eventTime)
+
+            eventTime.translatesAutoresizingMaskIntoConstraints = false
+            eventTime.topAnchor.constraint(equalTo: stack.topAnchor).isActive = true
+            
+            return stack
+        }()
+        
+        private lazy var eventDescription = {
             let label = UILabel()
-            label.font = UIFont.systemFont(ofSize: 12)
-            label.numberOfLines = 2
+            label.font = UIFont.systemFont(ofSize: 16)
+            label.textAlignment = .center
+            label.numberOfLines = 0
             return label
         }()
         
-        private lazy var isFavorite:UIImageView = {
+        private lazy var isFavorite = {
+            let container = UIStackView()
+            container.axis = .vertical
+            container.alignment = .leading
+            container.distribution = .fill
+            
             let image = UIImageView(image:Icon.favoriteOff.image)
             image.tintColor = Palette.favorite.color
             image.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                image.heightAnchor.constraint(equalToConstant: 15),
+                image.heightAnchor.constraint(equalToConstant: 24),
                 image.widthAnchor.constraint(equalTo: image.heightAnchor)
             ])
             
-            return image
+            container.addArrangedSubview(image)
+            return container
         }()
         
         override init(frame: CGRect) {
@@ -78,16 +111,16 @@ extension Feature.Domain.Sport.Event {
             contentView.dropShadow()
             
             addSubview(content)
-            content.addArrangedSubview(eventTime)
             content.addArrangedSubview(isFavorite)
             content.addArrangedSubview(eventDescription)
+            content.addArrangedSubview(timeDisplayStack)
             
             content.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                leadingAnchor.constraint(equalTo: content.leadingAnchor),
-                trailingAnchor.constraint(equalTo: content.trailingAnchor),
-                topAnchor.constraint(equalTo: content.topAnchor),
-                bottomAnchor.constraint(equalTo: content.bottomAnchor),
+                leadingAnchor.constraint(equalTo: content.leadingAnchor, constant: -16),
+                trailingAnchor.constraint(equalTo: content.trailingAnchor, constant: 16),
+                topAnchor.constraint(equalTo: content.topAnchor, constant: -16),
+                bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 16),
             ])
         }
     }

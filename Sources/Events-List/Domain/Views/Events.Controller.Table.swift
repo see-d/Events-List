@@ -12,7 +12,7 @@ extension Feature.Domain.Sport.EventsController {
         tableview.dataSource = self
         tableview.delegate = self
         
-        tableview.rowHeight = view.frame.height/6
+        tableview.rowHeight = view.frame.height*0.35
         tableview.estimatedRowHeight = UITableView.automaticDimension
         
         tableview.sectionFooterHeight = .leastNormalMagnitude
