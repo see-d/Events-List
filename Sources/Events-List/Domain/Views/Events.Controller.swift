@@ -17,6 +17,8 @@ extension Feature.Domain.Sport {
             self.viewmodel = viewmodel
             
             super.init(nibName: nil, bundle: nil)
+            
+            viewmodel.onChangeDelegate = self
         }
 
         @available(*, unavailable)

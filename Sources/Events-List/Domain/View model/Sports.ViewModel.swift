@@ -14,6 +14,8 @@ protocol OnChangeDelegate: AnyObject {
 extension Feature.Domain.Sport {
     class ViewModel {
         typealias event = Feature.Domain.Sport
+        weak var onChangeDelegate: OnChangeDelegate?
+        
         private let repository: EventsRepository
         
         private lazy var dataObserver:NSKeyValueObservation = {
@@ -23,17 +25,22 @@ extension Feature.Domain.Sport {
         }()
         
         private lazy var errorObserver:NSKeyValueObservation = {
-            return repository.observe(\.error) { object, change in
-                // TODO: post for error display
-                print("did receive error: \(object.error?.localizedDescription ?? "empty")")
+            return repository.observe(\.error) { [weak self] object, change in
+                self?.onChangeDelegate?.render(for: .failure(object.error))
             }
         }()
         
-        private(set) var events:[event] = []
+        private var visibleSections:[Int] = []
+        private(set) var events:[event] = [] {
+            didSet {
+                onChangeDelegate?.render(for: .loaded)
+            }
+        }
         
         init(repository: EventsRepository) {
             self.repository = repository
             
+            onChangeDelegate?.render(for: .loading)
             repository.fetch()
         }
         
