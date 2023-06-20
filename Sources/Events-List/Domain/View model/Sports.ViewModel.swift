@@ -35,14 +35,24 @@ extension Feature.Domain.Sport {
         
         func showEvents(in section:Int) -> Int {
             // each section conprises no more than 1 cell.
-            // to display this cell is dependent on whether the section has been "toggled" on/off
-            // TODO: implement on/off
-            return 1 // 0 || 1
+            // whether to display this cell is dependent on whether the section has been "toggled" on/off
+            //
+            return visibleSections.contains(section) ? 0 : 1
         }
         
         func title(for section:Int) -> String? {
             guard events.indices.contains(section) else { return nil }
             return events[section].title
+        }
+        
+        func toggleEvents(for section: Int) -> Bool {
+            if visibleSections.contains(section) {
+                visibleSections.removeAll(where: { $0 == section} )
+                return false
+            } else {
+                visibleSections.append(section)
+                return true
+            }
         }
     }
 }
