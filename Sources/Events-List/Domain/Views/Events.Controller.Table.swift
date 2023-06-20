@@ -23,11 +23,11 @@ extension Feature.Domain.Sport.EventsController {
 
 extension Feature.Domain.Sport.EventsController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0 // TODO: get from viewmodel
+        return viewmodel.events.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0 // TODO: get from viewmodel
+        return viewmodel.showEvents(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -40,6 +40,6 @@ extension Feature.Domain.Sport.EventsController: UITableViewDataSource {
 
 extension Feature.Domain.Sport.EventsController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return nil // TODO: get from viewmodel
+        return viewmodel.title(for: section)
     }
 }
