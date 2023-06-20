@@ -9,4 +9,5 @@ import Foundation
 
 struct Feature {
     struct API {}
+    struct Domain {}
 }
