@@ -77,21 +77,21 @@ extension Feature.Domain.Sport {
         }
         
         private func sortAndDisplay(events:[event]) {
-            let sorted = events.compactMap { sport in
-                let items = sport.events.sorted(by: {
+            let ordered = events.compactMap { sport in
+                let sorted = sport.events.sorted(by: {
                     return $0.timeToEvent < $1.timeToEvent
                 })
                 
-                let grouped = Dictionary(grouping: items) { (event: event.Event) -> Bool in
-                    return favourites.contains(event.id)
-                }.flatMap{ $0.value }
+                let grouped = Dictionary(grouping: sorted) { (event: event.Event) -> Int in
+                    return favourites.contains(event.id) ? 0 : 1
+                }
                 
-                return event(id: sport.id, title: sport.title, events: grouped)
+                let allEvents = grouped.flatMap{ $0.value }
+                
+                return event(id: sport.id, title: sport.title, events: allEvents)
             }
-            
-            
-            
-            self.events = sorted
+
+            self.events = ordered
         }
     }
 }

@@ -65,6 +65,8 @@ extension Feature.Domain.Sport {
         func prepare(with events:[sport.Event], favourites: [String]) {
             self.events = events
             self.favourites = favourites
+            
+            collection.reloadData()
         }
     }
 }
