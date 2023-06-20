@@ -20,7 +20,7 @@ extension Feature.Domain.Sport {
         
         private lazy var dataObserver:NSKeyValueObservation = {
             return repository.observe(\.data) { [weak self] object, change in
-                self?.sortAndDisplay(events: object.data)
+                self?.sortAndDisplay(events: object.data.compactMap{ event(with: $0) })
             }
         }()
         
@@ -76,14 +76,21 @@ extension Feature.Domain.Sport {
             return events[section].events
         }
         
-        private func sortAndDisplay(events:[Feature.API.Sport]) {
-            let sorted = events.compactMap{
-                let events = $0.events.sorted(by: {
-                    return $0.time < $1.time
-                }).compactMap{ event.Event(with: $0) }
+        private func sortAndDisplay(events:[event]) {
+            let sorted = events.compactMap { sport in
+                let items = sport.events.sorted(by: {
+                    return $0.timeToEvent < $1.timeToEvent
+                })
                 
-                return event(id: $0.id, title: $0.title, events: events)
+                let grouped = Dictionary(grouping: items) { (event: event.Event) -> Bool in
+                    return favourites.contains(event.id)
+                }.flatMap{ $0.value }
+                
+                return event(id: sport.id, title: sport.title, events: grouped)
             }
+            
+            
+            
             self.events = sorted
         }
     }
@@ -96,6 +103,6 @@ extension Feature.Domain.Sport.ViewModel: EventFavouritesDelegate {
         } else {
             favourites.append(id)
         }
-        onChangeDelegate?.render(for: .loaded)
+        sortAndDisplay(events: events)
     }
 }
