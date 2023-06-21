@@ -8,7 +8,7 @@
 import Foundation
 import API_Service
 
-struct SportsRepository: Repository {
+class SportsRepository: Repository {
     typealias Sport = Feature.API.Sport
 
     /// - Important: If result is used for UI purposes make sure to move your UI calls back to the main thread
