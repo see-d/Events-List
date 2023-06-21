@@ -105,6 +105,9 @@ extension Feature.Domain.Sport.Event {
         
         private lazy var toggleFavorite = {
             let button = UIButton(type: .custom)
+            
+            button.accessibilityHint = "select or remove event as a favorite"
+            
             button.setImage(Icon.favoriteOff.image, for: .normal)
             button.setImage(Icon.favoriteOn.image, for: .selected)
             button.tintColor = Palette.favorite.color

@@ -33,6 +33,8 @@ extension Feature.Domain.Sport {
         
         private lazy var toggleButton = {
             let button = UIButton(type: .custom)
+            button.accessibilityHint = "show or hide events for this sport"
+            
             button.contentVerticalAlignment = .fill
             button.contentHorizontalAlignment = .fill
             button.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
