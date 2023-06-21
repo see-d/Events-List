@@ -19,6 +19,10 @@ extension Feature.Domain.Sport.Event {
             stack.alignment = .fill
             stack.spacing = 8.0
             
+            stack.addArrangedSubview(isFavorite)
+            stack.addArrangedSubview(eventDescription)
+            stack.addArrangedSubview(timeDisplayStack)
+            
             return stack
         }()
         
@@ -93,7 +97,7 @@ extension Feature.Domain.Sport.Event {
         
         override init(frame: CGRect) {
             super.init(frame: frame)
-
+            
             configureViewHierarchy()
         }
 
@@ -105,7 +109,7 @@ extension Feature.Domain.Sport.Event {
         override func prepareForReuse() {
             super.prepareForReuse()
             
-            toggleFavorite.isSelected = false
+            configureViewAppearance()
         }
         
         func prepare(with event: Event, isFavourite:Bool, toggle:@escaping (Bool) -> ()?){
@@ -118,16 +122,7 @@ extension Feature.Domain.Sport.Event {
         }
         
         private func configureViewHierarchy() {
-            backgroundColor = Palette.background.color
-            self.contentView.backgroundColor = Palette.background.color
-        
-            contentView.layer.cornerRadius = 16.0
-            contentView.dropShadow()
-            
-            addSubview(content)
-            content.addArrangedSubview(isFavorite)
-            content.addArrangedSubview(eventDescription)
-            content.addArrangedSubview(timeDisplayStack)
+            contentView.addSubview(content)
             
             content.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -136,6 +131,25 @@ extension Feature.Domain.Sport.Event {
                 topAnchor.constraint(equalTo: content.topAnchor, constant: -16),
                 bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: 16),
             ])
+            
+            configureViewAppearance()
+        }
+        
+        private func configureViewAppearance() {
+            backgroundColor = nil
+            self.contentView.backgroundColor = Palette.secondaryBackground.color
+        
+            contentView.layer.cornerRadius = 16.0
+            
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                contentView.clipsToBounds = true
+            default:
+                contentView.clipsToBounds = false
+                contentView.dropShadow()
+            }
+            
+            toggleFavorite.isSelected = false
         }
         
         @objc private func toggleFavorite(_ sender:UIButton) {
