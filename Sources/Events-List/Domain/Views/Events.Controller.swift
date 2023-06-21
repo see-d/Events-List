@@ -27,7 +27,7 @@ extension Feature.Domain.Sport {
         }()
         
         lazy var activityIndicator = {
-            let activity = UIActivityIndicatorView(style: .whiteLarge)
+            let activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
             activity.hidesWhenStopped = true
             activity.color = .black
             
@@ -58,7 +58,7 @@ extension Feature.Domain.Sport {
         override func viewDidLoad() {
             super.viewDidLoad()
             
-            NotificationCenter.default.addObserver(self, selector: #selector(didMoveFromBackground), name: UIApplication.didBecomeActiveNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(didMoveFromBackground), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
             prepareViewHeirarchy()
         }
 

@@ -17,10 +17,10 @@ extension Feature.Domain.Sport.EventsController {
         tableview.delegate = self
         
         tableview.rowHeight = cellHeight
-        tableview.estimatedRowHeight = UITableView.automaticDimension
+        tableview.estimatedRowHeight = UITableViewAutomaticDimension
         
         tableview.sectionFooterHeight = .leastNormalMagnitude
-        tableview.sectionHeaderHeight = UITableView.automaticDimension
+        tableview.sectionHeaderHeight = UITableViewAutomaticDimension
         
         tableview.insetsContentViewsToSafeArea = true
 
