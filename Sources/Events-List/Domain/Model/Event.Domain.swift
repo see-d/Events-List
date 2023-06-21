@@ -15,7 +15,8 @@ extension Feature.Domain.Sport {
         private let time: Date
         
         var timeToEvent: Date {
-            return Date(timeInterval: time.timeIntervalSince1970, since: Date())
+            return time
+            //return Date(timeInterval: time.timeIntervalSince1970, since: Date())
         }
         
         init(id: String, sport: String, title: String, time: Date) {

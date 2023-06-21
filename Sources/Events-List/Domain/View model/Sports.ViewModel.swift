@@ -82,11 +82,14 @@ extension Feature.Domain.Sport {
                     return $0.timeToEvent < $1.timeToEvent
                 })
                 
-                let grouped = Dictionary(grouping: sorted) { (event: event.Event) -> Int in
-                    return favourites.contains(event.id) ? 0 : 1
-                }
+                let favorites = sorted.filter{ favourites.contains($0.id) }
+                let others = sorted.filter{ !favourites.contains($0.id) }
                 
-                let allEvents = grouped.flatMap{ $0.value }
+//                let grouped = Dictionary(grouping: sorted) { (event: event.Event) -> Int in
+//                    return favourites.contains(event.id) ? 0 : 1
+//                }
+                
+                let allEvents = favorites+others
                 
                 return event(id: sport.id, title: sport.title, events: allEvents)
             }

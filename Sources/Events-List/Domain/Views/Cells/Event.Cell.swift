@@ -40,9 +40,10 @@ extension Feature.Domain.Sport.Event {
         
         private lazy var timeFormatter = {
             let formatter = DateFormatter()
-            formatter.dateFormat = "HH:mm:ss"
+            formatter.dateStyle = .short
+            formatter.timeStyle = .short
             formatter.locale = .autoupdatingCurrent
-            
+
             return formatter
         }()
         
@@ -117,7 +118,7 @@ extension Feature.Domain.Sport.Event {
         }
         
         func prepare(with event: Event, isFavourite:Bool, toggle:@escaping (Bool) -> ()?){
-            eventTime.text = event.timeToEvent.countdown()
+            eventTime.text = timeFormatter.string(from: event.timeToEvent)
             eventDescription.text = event.title
             toggleAction = toggle
             
