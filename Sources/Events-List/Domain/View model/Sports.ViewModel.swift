@@ -18,18 +18,6 @@ extension Feature.Domain.Sport {
         
         private let repository: SportsRepository
         
-        private lazy var dataObserver:NSKeyValueObservation = {
-            return repository.observe(\.data) { [weak self] object, change in
-                self?.sortAndDisplay(events: object.data.compactMap{ Sport(with: $0) })
-            }
-        }()
-        
-        private lazy var errorObserver:NSKeyValueObservation = {
-            return repository.observe(\.error) { [weak self] object, change in
-                self?.onChangeDelegate?.render(for: .failure(object.error))
-            }
-        }()
-        
         private(set) var favourites:[String] = []
         private var visibleSections:[Int] = []
         private(set) var sports:[Sport] = [] {
@@ -42,11 +30,7 @@ extension Feature.Domain.Sport {
             self.repository = repository
             
             onChangeDelegate?.render(for: .loading)
-            
-            _ = dataObserver
-            _ = errorObserver
-            
-            repository.fetch()
+            load()
         }
         
         /// Each section conprises no more than 1 cell.
@@ -76,8 +60,20 @@ extension Feature.Domain.Sport {
             return sports[section].events
         }
         
-        private func sortAndDisplay(events:[Sport]) {
-            let ordered = events.compactMap { sport in
+        private func load() {
+            repository.fetch { [weak self] data, error in
+                guard let self else { return }
+                guard let error else {
+                    let sports = data?.compactMap{ Sport(with: $0) } ?? []
+                    self.sortAndDisplay(sports)
+                    return
+                }
+                self.onChangeDelegate?.render(for: .failure(error))
+            }
+        }
+        
+        private func sortAndDisplay(_ sports:[Sport]) {
+            let ordered = sports.compactMap { sport in
                 let sorted = sport.events.sorted(by: {
                     return $0.time < $1.time
                 })
@@ -102,6 +98,6 @@ extension Feature.Domain.Sport.ViewModel: EventFavouritesDelegate {
         } else {
             favourites.append(id)
         }
-        sortAndDisplay(events: sports)
+        sortAndDisplay(sports)
     }
 }

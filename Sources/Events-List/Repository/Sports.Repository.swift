@@ -8,22 +8,11 @@
 import Foundation
 import API_Service
 
-class SportsRepository: NSObject, Repository {
+struct SportsRepository: Repository {
     typealias Sport = Feature.API.Sport
-    @objc dynamic var data:[Sport] = []
-    @objc dynamic var error:Error?
-    
-    func fetch() {
+
+    func fetch(_ completion:@escaping ([Sport]?, Error?) -> Void) {
         let api = Feature.API.Sports.fetch
-        API_Service.make(request: api) { [weak self] (response:[Sport]?, error:Error?) in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                guard let response else {
-                    self.error = error ?? NSError(domain: "fetch.repository.events", code: 400)
-                    return
-                }
-                self.data = response
-            }
-        }
+        API_Service.make(request: api, completion: completion)
     }
 }

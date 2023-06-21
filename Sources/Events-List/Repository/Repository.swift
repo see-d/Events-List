@@ -9,6 +9,5 @@ import Foundation
 
 protocol Repository {
     associatedtype T: Decodable
-    var data:T { get set }
-    func fetch()
+    func fetch(_ completion:@escaping (T?,Error?)->Void)
 }
