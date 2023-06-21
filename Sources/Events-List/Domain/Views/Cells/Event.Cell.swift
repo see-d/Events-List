@@ -141,14 +141,14 @@ extension Feature.Domain.Sport.Event {
         }
         
         func prepare(with event: Event, isFavourite:Bool, toggle:@escaping (Bool) -> ()?){
+            configureViewHierarchy()
+            
             eventTime.text = event.time.countdown()
             eventDescription.text = event.title
             toggleAction = toggle
             
             toggleFavorite.isSelected = isFavourite
             toggleFavorite.addTarget(self, action: #selector(toggleFavorite(_:)), for: .touchUpInside)
-            
-            configureViewHierarchy()
         }
         
         private func configureViewHierarchy() {
