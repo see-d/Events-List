@@ -89,10 +89,12 @@ extension Feature.Domain.Sport {
 
 extension Feature.Domain.Sport.ViewModel: EventFavouritesDelegate {
     func updateEvent(favourite: Bool, id: String) {
-        if favourites.contains(id) {
-            favourites.removeAll(where: { $0 == id })
-        } else {
+        switch favourite {
+        case true:
+            guard !favourites.contains(id) else { break }
             favourites.append(id)
+        case false:
+            favourites.removeAll(where: { $0 == id })
         }
         sortAndDisplay(sports)
     }
