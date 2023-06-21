@@ -118,7 +118,7 @@ extension Feature.Domain.Sport.Event {
         }
         
         func prepare(with event: Event, isFavourite:Bool, toggle:@escaping (Bool) -> ()?){
-            eventTime.text = timeFormatter.string(from: event.timeToEvent)
+            eventTime.text = event.timeToEvent.countdown()
             eventDescription.text = event.title
             toggleAction = toggle
             
@@ -168,18 +168,40 @@ extension UIView {
 }
 
 extension Date {
+    /// Calculates time between a date and today.
+    /// If the date has passed it will return 00:00:00
+    ///
+    /// - Important: Not localized!
+    ///
     func countdown() -> String {
         let calendar = Calendar.autoupdatingCurrent
-
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
-        //let year = components.year != nil ? "\(components.year!) year" : ""
-        let month = components.month != nil ? "\(components.month!) month" : ""
-        let days = components.day != nil ? "\(components.day!) day" : ""
-        let hours = components.hour != nil ? "\(components.hour!)" : "00"
-        let minutes = components.minute != nil ? "\(components.minute!)" : "00"
-        let seconds = components.second != nil ? "\(components.second!)" : "00"
+        let components = calendar.dateComponents([.month, .day, .hour, .minute, .second], from: Date(), to: self)
         
-        return "\(month) \(days) \(hours):\(minutes):\(seconds)"
+        let month: String? =  {
+            guard let value = components.month, value > 0 else { return nil }
+            return "\(value) month"+(value > 1 ? "s" : "")
+        }()
+        let days: String? = {
+            guard let value = components.day, value > 0 else { return nil }
+            return "\(value) day"+(value > 1 ? "s" : "")
+        }()
+        let date = [month, days].compactMap{ $0 }.joined(separator: " ")
+        
+        let hours = {
+            guard let value = components.hour, value > 0 else { return "00" }
+            return "\(value)"
+        }()
+        let minutes = {
+            guard let value = components.minute, value > 0 else { return "00" }
+            return value > 9 ? "\(value)" : "0\(value)"
+        }()
+        let seconds = {
+            guard let value = components.second, value > 0 else { return "00" }
+            return value > 9 ? "\(value)" : "0\(value)"
+        }()
+        let time = [hours, minutes, seconds].joined(separator: ":")
+        
+        return [date,time].joined(separator: " ")
     }
 }
 
