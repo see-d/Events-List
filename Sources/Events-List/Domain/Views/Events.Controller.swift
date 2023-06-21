@@ -58,7 +58,13 @@ extension Feature.Domain.Sport {
         override func viewDidLoad() {
             super.viewDidLoad()
             
+            NotificationCenter.default.addObserver(self, selector: #selector(didMoveFromBackground), name: UIApplication.didBecomeActiveNotification, object: nil)
             prepareViewHeirarchy()
+        }
+
+        @objc private func didMoveFromBackground(_ notification: Notification) {
+           
+            tableview.reloadData()
         }
         
         private func prepareViewHeirarchy() {

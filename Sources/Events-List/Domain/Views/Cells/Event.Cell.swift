@@ -147,6 +147,8 @@ extension Feature.Domain.Sport.Event {
             
             toggleFavorite.isSelected = isFavourite
             toggleFavorite.addTarget(self, action: #selector(toggleFavorite(_:)), for: .touchUpInside)
+            
+            configureViewHierarchy()
         }
         
         private func configureViewHierarchy() {
