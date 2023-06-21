@@ -24,6 +24,10 @@ extension Feature.Domain.Sport {
         private lazy var titleLabel = {
             let label = UILabel()
             label.textColor = Palette.darkText.color
+            
+            label.adjustsFontForContentSizeCategory = true
+            label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+            
             return label
         }()
         
