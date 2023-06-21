@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Sports.Header.swift
 //  
 //
 //  Created by Corey Duncan on 20/6/23.
@@ -9,8 +9,8 @@ import UIKit
 
 extension Feature.Domain.Sport {
     class TitleHeader: UITableViewHeaderFooterView {
-        typealias sport = Feature.Domain.Sport
-        static var reuseIdentifier: String = String(describing: sport.TitleHeader.self)
+        typealias Sport = Feature.Domain.Sport
+        static var reuseIdentifier: String = String(describing: Sport.TitleHeader.self)
         
         private lazy var content = {
             let stack = UIStackView()
@@ -23,7 +23,7 @@ extension Feature.Domain.Sport {
         
         private lazy var titleLabel = {
             let label = UILabel()
-            label.textColor = Palette.darkLabel.color
+            label.textColor = Palette.darkText.color
             return label
         }()
         
@@ -35,7 +35,7 @@ extension Feature.Domain.Sport {
             
             button.setContentHuggingPriority(.required, for: .horizontal)
             
-            button.tintColor = Palette.darkLabel.color
+            button.tintColor = Palette.darkText.color
             
             button.setImage(Icon.toggleOn.image, for: .selected)
             button.setImage(Icon.toggleOff.image, for: .normal)

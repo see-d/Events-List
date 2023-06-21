@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Event.Domain.swift
 //  
 //
 //  Created by Corey Duncan on 20/6/23.
@@ -12,12 +12,7 @@ extension Feature.Domain.Sport {
         let id: String
         let sport: String
         let title: String
-        private let time: Date
-        
-        var timeToEvent: Date {
-            return time
-            //return Date(timeInterval: time.timeIntervalSince1970, since: Date())
-        }
+        let time: Date
         
         init(id: String, sport: String, title: String, time: Date) {
             self.id = id

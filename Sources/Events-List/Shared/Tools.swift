@@ -21,7 +21,7 @@ extension UIView {
 }
 
 extension Date {
-    /// Calculates time between a date and today.
+    /// Formats time between a date and today.
     /// If the date has passed it will return 00:00:00
     ///
     /// - Important: Not localized!

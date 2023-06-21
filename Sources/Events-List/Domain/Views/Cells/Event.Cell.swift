@@ -38,15 +38,6 @@ extension Feature.Domain.Sport.Event {
             return label
         }()
         
-        private lazy var timeFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .short
-            formatter.timeStyle = .short
-            formatter.locale = .autoupdatingCurrent
-
-            return formatter
-        }()
-        
         private lazy var timeDisplayStack = {
             let stack = UIStackView()
             stack.axis = .horizontal
@@ -118,7 +109,7 @@ extension Feature.Domain.Sport.Event {
         }
         
         func prepare(with event: Event, isFavourite:Bool, toggle:@escaping (Bool) -> ()?){
-            eventTime.text = event.timeToEvent.countdown()
+            eventTime.text = event.time.countdown()
             eventDescription.text = event.title
             toggleAction = toggle
             

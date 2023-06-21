@@ -13,12 +13,12 @@ protocol EventFavouritesDelegate: AnyObject {
 
 extension Feature.Domain.Sport {
     class Cell: UITableViewCell {
-        typealias sport = Feature.Domain.Sport
-        static let reuseIdentifier: String = String(describing: sport.Cell.self)
+        typealias Sport = Feature.Domain.Sport
+        static let reuseIdentifier: String = String(describing: Sport.Cell.self)
         
         weak var favouritesDelegate:EventFavouritesDelegate?
         
-        private var events:[sport.Event] = []
+        private var events:[Sport.Event] = []
         private var favourites:[String] = []
         
         lazy var collection = {
@@ -62,7 +62,7 @@ extension Feature.Domain.Sport {
             collection.reloadData()
         }
         
-        func prepare(with events:[sport.Event], favourites: [String]) {
+        func prepare(with events:[Sport.Event], favourites: [String]) {
             self.events = events
             self.favourites = favourites
             
@@ -73,7 +73,6 @@ extension Feature.Domain.Sport {
 
 extension Feature.Domain.Sport.Cell {
     private func configureCollection() {
-        
         collection.insetsLayoutMarginsFromSafeArea = true
         collection.contentInsetAdjustmentBehavior = .automatic
         
@@ -86,8 +85,8 @@ extension Feature.Domain.Sport.Cell {
         collection.showsVerticalScrollIndicator = false
         collection.showsHorizontalScrollIndicator = false
         
-        collection.register(sport.Event.Cell.self,
-                            forCellWithReuseIdentifier: sport.Event.Cell.reuseIdentifier)
+        collection.register(Sport.Event.Cell.self,
+                            forCellWithReuseIdentifier: Sport.Event.Cell.reuseIdentifier)
         
         collection.dataSource = self
         collection.delegate = self
@@ -103,7 +102,7 @@ extension Feature.Domain.Sport.Cell: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: sport.Event.Cell.reuseIdentifier,
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Sport.Event.Cell.reuseIdentifier,
                                                       for: indexPath)
         
         if events.indices.contains(indexPath.row) {
@@ -115,11 +114,11 @@ extension Feature.Domain.Sport.Cell: UICollectionViewDataSource {
             }
             
             let isFavorite = favourites.contains(event.id)
-            (cell as? sport.Event.Cell)?.prepare(with: event,
+            (cell as? Sport.Event.Cell)?.prepare(with: event,
                                                  isFavourite: isFavorite,
                                                  toggle: toggleAction)
         }
-        // TODO: add fallback empty/error state
+        // TODO: Needs fallback empty/error state
         
         return cell
     }
