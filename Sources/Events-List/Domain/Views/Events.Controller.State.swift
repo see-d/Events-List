@@ -16,16 +16,36 @@ extension Feature.Domain.Sport.EventsController: OnChangeDelegate {
         DispatchQueue.main.async { [weak self] in
             switch state {
             case .loading:
-                // TODO: show loader
-                print("loading...")
+                self?.toggleLoader(on: true)
             case .loaded:
+                self?.toggleLoader(on: false)
                 self?.tableview.reloadData()
             case .failure(let error):
-                // TODO: show error
-                print("on error: \(error?.localizedDescription ?? "")")
+                self?.show(error: error)
             default:
                 return
             }
+        }
+    }
+    
+    private func show(error: Error) {
+        toggleLoader(on: false)
+        let alertController = UIAlertController(title: "Failed to load events",
+                                                message: error.localizedDescription,
+                                                preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "ok", style: .cancel)
+        alertController.addAction(cancel)
+        
+        present(alertController, animated: true)
+    }
+    
+    private func toggleLoader(on: Bool) {
+        switch on {
+        case true:
+            activityIndicator.startAnimating()
+        default:
+            activityIndicator.stopAnimating()
         }
     }
 }

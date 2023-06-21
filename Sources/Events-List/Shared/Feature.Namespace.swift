@@ -14,6 +14,6 @@ struct Feature {
 
 extension Feature {
     enum State {
-        case initial, loading, loaded, failure(Error?)
+        case initial, loading, loaded, failure(Error)
     }
 }
