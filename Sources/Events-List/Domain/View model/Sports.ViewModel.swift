@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol OnChangeDelegate: AnyObject {
-    func render(for state:Feature.State)
-}
-
 extension Feature.Domain.Sport {
     class ViewModel {
         typealias Sport = Feature.Domain.Sport
