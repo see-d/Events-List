@@ -24,11 +24,17 @@ extension Feature.Domain.Sport {
         private lazy var titleLabel = {
             let label = UILabel()
             label.textColor = Palette.darkText.color
+            
+            label.adjustsFontForContentSizeCategory = true
+            label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+            
             return label
         }()
         
         private lazy var toggleButton = {
             let button = UIButton(type: .custom)
+            button.accessibilityHint = "show or hide events for this sport"
+            
             button.contentVerticalAlignment = .fill
             button.contentHorizontalAlignment = .fill
             button.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)

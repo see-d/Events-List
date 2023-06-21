@@ -15,30 +15,53 @@ extension Feature.Domain.Sport.Event {
         private lazy var content = {
             let stack = UIStackView()
             stack.axis = .vertical
-            stack.distribution = .fill
+            stack.distribution = .equalSpacing
             stack.alignment = .fill
-            stack.spacing = 8.0
             
             stack.addArrangedSubview(isFavorite)
             stack.addArrangedSubview(eventDescription)
             stack.addArrangedSubview(timeDisplayStack)
+            
+            eventDescription.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                eventDescription.centerYAnchor.constraint(equalTo: stack.centerYAnchor)
+            ])
             
             return stack
         }()
         
         private lazy var eventTimeLabel = {
             let label = UILabel()
+            
             label.text = "starts in:"
             label.textAlignment = .right
-            label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+            
+            label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+            
+            label.adjustsFontSizeToFitWidth = true
+            label.minimumScaleFactor = 0.5
+            
+            label.adjustsFontForContentSizeCategory = true
+            label.font = UIFont.preferredFont(forTextStyle: .caption2)
+            
             return label
         }()
         
         private lazy var eventTime = {
             let label = UILabel()
-            label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+            
+            label.textAlignment = .right
+            
             label.setContentHuggingPriority(.required, for: .horizontal)
             label.setContentHuggingPriority(.required, for: .vertical)
+            label.setContentCompressionResistancePriority(.required, for: .horizontal)
+            
+            label.adjustsFontSizeToFitWidth = true
+            label.minimumScaleFactor = 0.5
+            
+            label.adjustsFontForContentSizeCategory = true
+            label.font = UIFont.preferredFont(forTextStyle: .subheadline)
+            
             return label
         }()
         
@@ -46,25 +69,26 @@ extension Feature.Domain.Sport.Event {
             let stack = UIStackView()
             stack.axis = .horizontal
             stack.distribution = .fill
-            stack.alignment = .bottom
-            stack.spacing = 8.0
+            stack.alignment = .firstBaseline
             
             stack.addArrangedSubview(eventTimeLabel)
             stack.addArrangedSubview(eventTime)
 
-            eventTime.translatesAutoresizingMaskIntoConstraints = false
-            eventTime.topAnchor.constraint(equalTo: stack.topAnchor).isActive = true
-            
             return stack
         }()
         
         private lazy var eventDescription = {
             let label = UILabel()
-            label.font = UIFont.systemFont(ofSize: 24)
+        
             label.textAlignment = .center
             label.numberOfLines = 0
+            
             label.adjustsFontSizeToFitWidth = true
             label.minimumScaleFactor = 0.5
+            
+            label.adjustsFontForContentSizeCategory = true
+            label.font = UIFont.preferredFont(forTextStyle: .title2)
+            
             return label
         }()
         
@@ -75,11 +99,15 @@ extension Feature.Domain.Sport.Event {
             container.distribution = .fill
             
             container.addArrangedSubview(toggleFavorite)
+            
             return container
         }()
         
         private lazy var toggleFavorite = {
             let button = UIButton(type: .custom)
+            
+            button.accessibilityHint = "select or remove event as a favorite"
+            
             button.setImage(Icon.favoriteOff.image, for: .normal)
             button.setImage(Icon.favoriteOn.image, for: .selected)
             button.tintColor = Palette.favorite.color
