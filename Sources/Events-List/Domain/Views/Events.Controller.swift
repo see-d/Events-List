@@ -9,13 +9,11 @@ import UIKit
 
 extension Feature.Domain.Sport {
     class EventsController : UIViewController {
-        typealias events = Feature.Domain.Sport
-        private(set) var viewmodel: events.ViewModel
+        typealias Sport = Feature.Domain.Sport
+        private(set) var viewmodel: Sport.ViewModel
         lazy var tableview = UITableView(frame: view.frame, style: .plain)
         
-        let pageColor = UIColor(named: "background", in: .module, compatibleWith: .none)
-        
-        required init(with viewmodel: events.ViewModel) {
+        required init(with viewmodel: Sport.ViewModel) {
             self.viewmodel = viewmodel
             
             super.init(nibName: nil, bundle: nil)
@@ -35,12 +33,13 @@ extension Feature.Domain.Sport {
         }
         
         private func prepareViewHeirarchy() {
-            view.backgroundColor = pageColor
+            view.backgroundColor = Palette.background.color
             displayTableview()
         }
 
         private func displayTableview() {
             configureTableView()
+            
             view.addSubview(tableview)
             tableview.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Events.Controller.State.swift
 //  
 //
 //  Created by Corey Duncan on 20/6/23.
@@ -17,7 +17,7 @@ extension Feature.Domain.Sport.EventsController: OnChangeDelegate {
             tableview.reloadData()
         case .failure(let error):
             // TODO: show error
-            print("on error: \(error?.localizedDescription)")
+            print("on error: \(error?.localizedDescription ?? "")")
         default:
             return
         }

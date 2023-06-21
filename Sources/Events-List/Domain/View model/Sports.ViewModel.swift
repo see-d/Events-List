@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Sports.ViewModel.swift
 //  
 //
 //  Created by Corey Duncan on 20/6/23.
@@ -13,14 +13,14 @@ protocol OnChangeDelegate: AnyObject {
 
 extension Feature.Domain.Sport {
     class ViewModel {
-        typealias event = Feature.Domain.Sport
+        typealias Sport = Feature.Domain.Sport
         weak var onChangeDelegate: OnChangeDelegate?
         
-        private let repository: EventsRepository
+        private let repository: SportsRepository
         
         private lazy var dataObserver:NSKeyValueObservation = {
             return repository.observe(\.data) { [weak self] object, change in
-                self?.sortAndDisplay(events: object.data.compactMap{ event(with: $0) })
+                self?.sortAndDisplay(events: object.data.compactMap{ Sport(with: $0) })
             }
         }()
         
@@ -32,13 +32,13 @@ extension Feature.Domain.Sport {
         
         private(set) var favourites:[String] = []
         private var visibleSections:[Int] = []
-        private(set) var events:[event] = [] {
+        private(set) var sports:[Sport] = [] {
             didSet {
                 onChangeDelegate?.render(for: .loaded)
             }
         }
         
-        init(repository: EventsRepository) {
+        init(repository: SportsRepository) {
             self.repository = repository
             
             onChangeDelegate?.render(for: .loading)
@@ -49,16 +49,16 @@ extension Feature.Domain.Sport {
             repository.fetch()
         }
         
+        /// Each section conprises no more than 1 cell.
+        /// whether to display this cell is dependent on whether the section has been "toggled" on/off
+        ///
         func showEvents(in section:Int) -> Int {
-            // each section conprises no more than 1 cell.
-            // whether to display this cell is dependent on whether the section has been "toggled" on/off
-            //
             return visibleSections.contains(section) ? 0 : 1
         }
         
         func title(for section:Int) -> String? {
-            guard events.indices.contains(section) else { return nil }
-            return events[section].title
+            guard sports.indices.contains(section) else { return nil }
+            return sports[section].title
         }
         
         func toggleEvents(for section: Int) -> Bool {
@@ -71,30 +71,26 @@ extension Feature.Domain.Sport {
             }
         }
         
-        func events(for section: Int) -> [event.Event] {
-            guard events.indices.contains(section) else { return [] }
-            return events[section].events
+        func events(for section: Int) -> [Sport.Event] {
+            guard sports.indices.contains(section) else { return [] }
+            return sports[section].events
         }
         
-        private func sortAndDisplay(events:[event]) {
+        private func sortAndDisplay(events:[Sport]) {
             let ordered = events.compactMap { sport in
                 let sorted = sport.events.sorted(by: {
-                    return $0.timeToEvent < $1.timeToEvent
+                    return $0.time < $1.time
                 })
                 
                 let favorites = sorted.filter{ favourites.contains($0.id) }
                 let others = sorted.filter{ !favourites.contains($0.id) }
                 
-//                let grouped = Dictionary(grouping: sorted) { (event: event.Event) -> Int in
-//                    return favourites.contains(event.id) ? 0 : 1
-//                }
-                
                 let allEvents = favorites+others
                 
-                return event(id: sport.id, title: sport.title, events: allEvents)
+                return Sport(id: sport.id, title: sport.title, events: allEvents)
             }
 
-            self.events = ordered
+            self.sports = ordered
         }
     }
 }
@@ -106,6 +102,6 @@ extension Feature.Domain.Sport.ViewModel: EventFavouritesDelegate {
         } else {
             favourites.append(id)
         }
-        sortAndDisplay(events: events)
+        sortAndDisplay(events: sports)
     }
 }

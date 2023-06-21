@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Sports.Repository.swift
 //  
 //
 //  Created by Corey Duncan on 20/6/23.
@@ -8,13 +8,14 @@
 import Foundation
 import API_Service
 
-class EventsRepository: NSObject, Repository {
-    @objc dynamic var data:[Feature.API.Sport] = []
+class SportsRepository: NSObject, Repository {
+    typealias Sport = Feature.API.Sport
+    @objc dynamic var data:[Sport] = []
     @objc dynamic var error:Error?
     
     func fetch() {
         let api = Feature.API.Sports.fetch
-        API_Service.make(request: api) { [weak self] (response:[Feature.API.Sport]?, error:Error?) in
+        API_Service.make(request: api) { [weak self] (response:[Sport]?, error:Error?) in
             DispatchQueue.main.async {
                 guard let self else { return }
                 guard let response else {
